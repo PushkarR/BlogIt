@@ -1,39 +1,44 @@
-var app=angular.module('myApp',['ngRoute']);
+var app=angular.module('myApp',['ui.router']);
 
-app.config(function($routeProvider, $locationProvider){
+app.config(function($stateProvider, $locationProvider, $urlRouterProvider){
     Stamplay.init("blogitpushkar");
     localStorage.removeItem('https://blogit-pushkarraj.c9users.io-jwt');
     $locationProvider.hashPrefix('');
-    $routeProvider
-    .when('/',{
-        templateUrl: 'templates/home.html',
-        controller: "HomeCtrl"
-    })
-    .when('/login',{
-        templateUrl: 'templates/login.html',
-        controller: "LoginCtrl"
-    })
-    .when('/signup',{
-        templateUrl: 'templates/signup.html',
-        controller: "SignUpCtrl"
-    })
-    .when('/viewBlogs',{
-        templateUrl: 'templates/viewBlogs.html',
-        controller: "ViewBlogsCtrl"
-    })
+    $stateProvider
+        .state('home', {
+            url: '/',
+            templateUrl: 'templates/home.html',
+            controller: "HomeCtrl"
+        })
+        .state('login', {
+            url: '/login',
+            templateUrl: 'templates/login.html',
+            controller: "LoginCtrl"
+        })
+        .state('signup', {
+            url: '/signup',
+            templateUrl: 'templates/signup.html',
+            controller: "SignUpCtrl"
+        })
+        .state('MyBlogs', {
+            url: '/myBlogs',
+            templateUrl: 'templates/myBlogs.html',
+            controller: "MyBlogsCtrl"
+        });
+    $urlRouterProvider.otherwise("/");
 });
 
-app.controller('HomeCtrl',function(){
+app.controller('HomeCtrl', function(){
 });
 
-app.controller('LoginCtrl',function($scope){
+app.controller('LoginCtrl', function($scope){
     $scope.login = function(){
         Stamplay.User.currentUser()
         .then(function(res){
             console.log(res);
             if(res.user){
                 $timeout(function(){
-                    $location.path("/viewBlogs");
+                    $location.path("/myBlogs");
                 });    
             }
             else{
@@ -41,7 +46,7 @@ app.controller('LoginCtrl',function($scope){
                 .then(function(res){
                     console.log("Logged in "+res);
                     $timeout(function() {
-                        $location.path("/viewBlogs");
+                        $location.path("/myBlogs");
                     });
                 },
                 function(err){
@@ -56,7 +61,7 @@ app.controller('LoginCtrl',function($scope){
     };
 });
 
-app.controller('SignUpCtrl',function($scope) {
+app.controller('SignUpCtrl', function($scope) {
     $scope.newUser = {};
     $scope.signup = function(){
         if($scope.newUser.firstName && $scope.newUser.lastName && $scope.newUser.email && $scope.newUser.password && $scope.newUser.confirmPassword){
@@ -81,9 +86,9 @@ app.controller('SignUpCtrl',function($scope) {
     };
 });
 
-app.controller('ViewBlogsCtrl',function(){
+app.controller('MyBlogsCtrl', function() {
     
-});
+})
 
 app.controller('myCtrl',function($scope){
 // 	$scope.message="Welcome to BlogIt!"
