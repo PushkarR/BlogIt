@@ -1,4 +1,4 @@
 # BlogIt
-BlogIt is a blogging web application created using AngularJS.
-It is a single page application (SPA).
-This is the first project that I've created using Angular and I'll develop it further as I learn more.
+BlogIt is a blogging web application created using AngularJS and jQuery, and style using basic Bootstrap.
+It follows the single page application (SPA) structure.
+This is the first project that I've created using Angular and this will developed further as I learn more and get nore experience in Angular.
